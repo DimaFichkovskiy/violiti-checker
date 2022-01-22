@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandHelp
 
-from bot.loader import dp
+from loader import dp
 
 
 @dp.message_handler(CommandHelp())
@@ -10,6 +10,6 @@ async def bot_help(message: types.Message):
             "/start - Розбочати роботу з ботом",
             "/help - Отримати справку")
 
-    await message.answer("/n".join(test))
+    await message.answer("\n".join(test))
 
 

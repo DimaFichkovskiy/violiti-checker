@@ -1,0 +1,47 @@
+version: "3.3"
+
+networks:
+  backend:
+
+services:
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    restart: always
+    volumes: ['./bot:/bot']
+    networks:
+      - backend
+
+  redis:
+    image: redis
+    networks:
+      - backend
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - backend
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    env_file: bot/.env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    networks:
+      - backend
+
+volumes:
+  database-data:
+
+
+
